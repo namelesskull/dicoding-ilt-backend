@@ -1,8 +1,13 @@
 import prisma from "../../prisma/libs/prisma.js";
 
-export async function getProducts(_req, res) {
+export async function getProducts(req, res) {
   try {
-    const products = await prisma.products.findMany();
+    const userId = req.user.userid;
+    const products = await prisma.products.findMany({
+      where: {
+        userId,
+      },
+    });
 
     return res
       .status(200)
@@ -35,6 +40,7 @@ export async function getProductById(req, res) {
 export async function createProduct(req, res) {
   try {
     const { title, description, sku, price } = req.body;
+    const userId = req.user.userid;
 
     const product = await prisma.products.create({
       data: {
@@ -42,6 +48,7 @@ export async function createProduct(req, res) {
         description,
         sku,
         price,
+        userId,
       },
     });
 

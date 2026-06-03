@@ -7,11 +7,13 @@ import {
   deleteProduct,
 } from "../controllers/product.controller.js";
 
+import auth from "../middleware/auth.js";
+
 const router = Router();
 
-router.get("/", getProducts);
+router.get("/", auth, getProducts);
 router.get("/:id", getProductById);
-router.post("/", createProduct);
+router.post("/", auth, createProduct);
 router.put("/:id", updateProduct);
 router.delete("/:id", deleteProduct);
 
